@@ -18,3 +18,8 @@ export type HyperLiquidMessage =
         channel: string;
         data?: unknown;
     };
+
+export type BalanceType = {
+    agentId : string, 
+    balance : string
+}
