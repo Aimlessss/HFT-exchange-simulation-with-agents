@@ -1,6 +1,6 @@
 import WebSocket from "ws";
-import { marketState } from "./state/marketState.js";
-import type { HyperLiquidMessage } from "./dtos/Types.js";
+import { marketState } from "../state/marketState.js";
+import type { HyperLiquidMessage } from "../dtos/Types.js";
 
 
 const ws = new WebSocket("wss://api.hyperliquid.xyz/ws");
