@@ -1,20 +1,7 @@
-// import WebSocket from "ws";
-
-
-export class WebSocketHyperLiquid {
-    private ws : WebSocket;
-    constructor(){
-        this.ws = new WebSocket("wss://api.hyperliquid.xyz/ws");
-    }
-
-    connect(){
-        this.ws.on("open", () =>{
-            
-        })
-    }
-}
-
 import WebSocket from "ws";
+import { marketState } from "./state/marketState.js";
+import type { HyperLiquidMessage } from "./dtos/Types.js";
+
 
 const ws = new WebSocket("wss://api.hyperliquid.xyz/ws");
 
@@ -31,7 +18,27 @@ ws.on("open", () => {
 });
 
 ws.on("message", (data) => {
-    const parsed = JSON.parse(data.toString());
+    const parsed : HyperLiquidMessage = JSON.parse(data.toString());
 
-    console.log(parsed);
+    if (parsed.channel !== "trades" || !Array.isArray(parsed.data)) {
+        console.log(parsed);
+        return;
+    }
+
+    const latestTrade = parsed.data.at(-1);
+    if (!latestTrade) {
+        return;
+    }
+
+    marketState.BTC.currPrice = Number(latestTrade.px);
+    console.log("BTC trade:", latestTrade);
+    console.log("Current BTC price:", marketState.BTC.currPrice);
+});
+
+ws.on("close", () => {
+    console.log("Disconnected");
+});
+
+ws.on("error", (err) => {
+    console.error(err);
 });
