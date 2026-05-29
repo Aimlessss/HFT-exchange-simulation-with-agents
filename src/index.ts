@@ -1,14 +1,18 @@
 // import WebSocket from "ws";
 
 
-// export class WebSocketHyperLiquid {
-//     private ws : WebSocket;
-//     constructor(){
-//         this.ws = new WebSocket("wss://api.hyperliquid.xyz/ws");
-//     }
+export class WebSocketHyperLiquid {
+    private ws : WebSocket;
+    constructor(){
+        this.ws = new WebSocket("wss://api.hyperliquid.xyz/ws");
+    }
 
-
-// }
+    connect(){
+        this.ws.on("open", () =>{
+            
+        })
+    }
+}
 
 import WebSocket from "ws";
 
@@ -30,12 +34,4 @@ ws.on("message", (data) => {
     const parsed = JSON.parse(data.toString());
 
     console.log(parsed);
-});
-
-ws.on("close", () => {
-    console.log("Disconnected");
-});
-
-ws.on("error", (err) => {
-    console.error(err);
 });
